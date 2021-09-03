@@ -1,20 +1,22 @@
 import { OPEN_API_VERSION } from 'src/constants';
 import { Validate } from 'src/utils/validate';
-import { InfoDoc, SwaggerDoc, TagDoc } from './interfaces/document.interface';
+import {
+  ExternalDoc,
+  InfoDoc,
+  ServerDoc,
+  SwaggerDoc,
+} from './interfaces/document.interface';
 
 export class DocumentBuilder {
   private document: SwaggerDoc = { openapi: OPEN_API_VERSION };
 
-  public addTags(tags: TagDoc[]): DocumentBuilder {
-    tags.forEach((tag: TagDoc) => {
-      Validate.assertNotEmpty(
-        tag.name,
-        'Missing name when define tag in swagger',
-      );
-      Validate.assertString(tag.name, `Tag: ${tag.name} should be a string`);
-    });
+  public setExternalDocs(externalDoc: ExternalDoc): DocumentBuilder {
+    this.document.externalDocs = externalDoc;
+    return this;
+  }
 
-    this.document.tags = tags;
+  public setServers(...servers: ServerDoc[]) {
+    this.document.servers = servers;
     return this;
   }
 

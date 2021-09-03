@@ -1,10 +1,12 @@
+import { SchemaDoc } from './schema-doc';
+
 export interface SwaggerDoc {
   readonly openapi: string;
   info?: InfoDoc;
   externalDocs?: ExternalDoc;
   servers?: ServerDoc[];
   tags?: TagDoc[];
-  paths?: any;
+  paths?: PathDoc;
   components?: ComponentDoc;
 }
 
@@ -52,11 +54,40 @@ export interface ExternalDoc {
   url?: string;
 }
 
+// Component document
 export interface ComponentDoc {
-  schemas: any;
-  securitySchemes: {
-    [authKey: string]: SecurityDoc | BearerAuthDoc | ApiKeyDoc;
-  };
+  schemas: Record<string, SchemaDoc> | RefDoc;
+  securitySchemes:
+    | Record<string, SecurityDoc | BearerAuthDoc | ApiKeyDoc>
+    | RefDoc;
+  responses: Record<string, ResponseDoc> | RefDoc;
+  parameters: Record<string, ParameterDoc> | RefDoc;
+  examples: any | RefDoc;
+  requestBodies: any | RefDoc;
+  headers: any | RefDoc;
+  links: any | RefDoc;
+  callbacks: any | RefDoc;
+}
+
+export interface RefDoc {
+  $ref: string;
+}
+
+export interface ResponseDoc {
+  description?: string;
+  headers?: Record<string, any> | RefDoc;
+  content?: Record<string, any>;
+  links?: Record<string, any> | RefDoc;
+}
+
+export type PathLocation = 'query' | 'header' | 'path' | 'cookie';
+export interface ParameterDoc {
+  name: string;
+  in: PathLocation;
+  description?: string;
+  required?: boolean;
+  deprecated?: string;
+  allowEmptyValue?: boolean;
 }
 
 /**
@@ -98,3 +129,24 @@ export type ApiKeyDoc = {
   name: 'api_key';
   in: 'header';
 };
+
+export type HttpMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
+
+export interface PathDoc {
+  [path: string]: HttpMethod;
+}
+
+export interface OperationDoc {
+  tags: string[];
+  summary: string;
+  description: string;
+  externalDocs: ExternalDoc;
+  operationId: string;
+  parameters: ParameterDoc[];
+  requestBody: any;
+  responses: Record<string, ResponseDoc>;
+  callbacks: any;
+  deprecated: boolean;
+  security: SecurityDoc[];
+  servers: ServerDoc;
+}
