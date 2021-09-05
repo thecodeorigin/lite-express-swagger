@@ -58,15 +58,15 @@ export interface ExternalDoc {
 export interface ComponentDoc {
   schemas: Record<string, SchemaDoc> | RefDoc;
   securitySchemes:
-    | Record<string, SecurityDoc | BearerAuthDoc | ApiKeyDoc>
+    | Record<string, SecurityDoc | BearerAuthDoc | ApiKeyDoc | OAth2Doc>
     | RefDoc;
   responses: Record<string, ResponseDoc> | RefDoc;
-  parameters: Record<string, ParameterDoc> | RefDoc;
-  examples: any | RefDoc;
-  requestBodies: any | RefDoc;
-  headers: any | RefDoc;
-  links: any | RefDoc;
-  callbacks: any | RefDoc;
+  parameters?: Record<string, ParameterDoc> | RefDoc;
+  examples?: any | RefDoc;
+  requestBodies?: any | RefDoc;
+  headers?: any | RefDoc;
+  links?: any | RefDoc;
+  callbacks?: any | RefDoc;
 }
 
 export interface RefDoc {
@@ -128,6 +128,11 @@ export type ApiKeyDoc = {
   type: 'apiKey';
   name: 'api_key';
   in: 'header';
+};
+
+export type OAth2Doc = {
+  type: 'oauth2';
+  flows: OAuthFlows;
 };
 
 export type HttpMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
