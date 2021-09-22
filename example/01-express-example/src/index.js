@@ -1,7 +1,7 @@
-import * as express from 'express';
-import swaggerConfig from './swagger.config';
-import { authRouter } from './api/auth';
-import { userRouter } from './api/users';
+const express = require("express");
+const swaggerConfig = require("./swagger.config.js");
+const { authRouter } = require("./api/auth");
+const { userRouter } = require("./api/users");
 
 const app = express();
 const PORT = 3000;

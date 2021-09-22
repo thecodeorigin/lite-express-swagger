@@ -55,7 +55,7 @@ export class DocumentBuilder {
       scheme: 'bearer',
     } as BearerAuthDoc;
 
-    return DocumentBuilder;
+    return this;
   }
 
   public setApiKey() {
@@ -64,12 +64,12 @@ export class DocumentBuilder {
       name: 'api_key',
       in: 'header',
     } as ApiKeyDoc;
-    return DocumentBuilder;
+    return this;
   }
 
   public setOauth2(key: string, oauth2Flow: OAth2Doc) {
     this.document.components.securitySchemes[key] = oauth2Flow;
-    return DocumentBuilder;
+    return this;
   }
 
   public build(): SwaggerDoc {

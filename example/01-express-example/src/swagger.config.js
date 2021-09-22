@@ -1,6 +1,7 @@
-import { DocumentBuilder } from '../../../lib/api/core/document';
+const { DocumentBuilder } = require('../../../lib/api/core/document');
+const { setup, serve } = require("swagger-ui-express");
 
-export default (app) => {
+module.exports = (app) => {
   const document = new DocumentBuilder()
     .setInfo({
       title: 'Express application',
@@ -17,5 +18,8 @@ export default (app) => {
         url: 'http://www.apache.org/licenses/LICENSE-2.0.html',
       },
     })
+    .setBearerAuth()
     .build();
+
+    app.use('/docs', serve, setup(document));
 };
