@@ -1,5 +1,5 @@
-import { OPEN_API_VERSION, SECURITY_KEY } from 'src/constants';
-import { Validate } from 'src/utils/validate';
+import { OPEN_API_VERSION, SECURITY_KEY } from '../../constants';
+import { Validate } from '../../utils/validate';
 import {
   ApiKeyDoc,
   BearerAuthDoc,
